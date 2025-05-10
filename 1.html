@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KINO - تجربة سينمائية متطورة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap" rel="stylesheet"> <!-- تم تغيير الرابط إلى خط Cairo -->
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif; /* تغيير الخط إلى Cairo */
+      background: linear-gradient(to bottom, #5f2a8b, #0f172a); /* بنفسجي أفتح - أزرق غامق */
+      color: white;
+    }
+
+    /* الشريط العلوي */
+    .top-bar {
+      background-color: #0f172a;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      font-size: 14px;
+      border-bottom: 1px solid #3b82f6;
+    }
+
+    .top-bar a {
+      color: #f97316;
+      margin-left: 15px;
+      text-decoration: none;
+    }
+
+    .language-selector {
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* شريط التنقل */
+    nav {
+      background-color: #1e1b4b;
+      padding: 10px 0;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    nav a {
+      margin: 0 20px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background-color: #f97316;
+      width: 0%;
+      transition: 0.3s;
+      margin: auto;
+      margin-top: 5px;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    header img { 
+      width: 300px;
+      max-width: 80%;
+    }
+
+    header p {
+      font-size: 22px;
+      color: #ddd;
+      margin-top: 20px;
+    }
+
+    header h3 {
+      color: #f97316;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+    }
+
+    section h2 {
+      font-size: 32px;
+      color: #f97316;
+      margin-bottom: 30px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-box {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #3b82f6;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+
+    .cta {
+      margin-top: 50px;
+    }
+
+    .cta button {
+      background-color: #f97316;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .cta button:hover {
+      background-color: #ea580c;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      background-color: #0f172a;
+      color: #94a3b8;
+      margin-top: 60px;
+    }
+
+    /* صفحة السينما المتنقلة */
+    .mobile-cinema, .private-rooms {
+      background: #0f172a;
+      padding: 60px 20px;
+      text-align: center;
+      display: none; /* يتم إخفاء الأقسام عند تحميل الصفحة */
+    }
+
+    .mobile-cinema img, .private-rooms img {
+      width: 80%;
+      max-width: 400px;
+      margin-bottom: 20px;
+    }
+
+    .mobile-cinema ul, .private-rooms ol {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .mobile-cinema li, .private-rooms li {
+      font-size: 18px;
+      color: #ddd;
+      margin: 10px 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- الشريط العلوي -->
+  <div class="top-bar">
+    <div>
+      <a href="#">تسجيل الدخول</a>
+      <a href="#">إنشاء حساب</a>
+    </div>
+    <div class="language-selector">🌐 🇸🇦 / 🇺🇸</div>
+  </div>
+
+  <!-- شريط التنقل -->
+  <nav>
+    <a href="#kino">تعرف على KINO</a>
+    <a href="javascript:void(0);" onclick="showPrivateRooms()">غرف السينما الخاصة</a> <!-- تعديل الرابط ليفتح قسم غرف السينما الخاصة -->
+    <a href="javascript:void(0);" onclick="showMobileCinema()">السينما المتنقلة</a> <!-- تعديل الرابط ليفتح قسم السينما المتنقلة -->
+  </nav>
+
+  <!-- واجهة الموقع -->
+  <header>
+    
+    <p>تجربة سينما 7D غير مسبوقة بتقنيات الواقع والاندماج</p>
+    <h3>إنها أكثر من مجرد غرفة... إنها بوابتك إلى عالم الترفيه الفريد!</h3>
+    
+    <!-- قسم الصور المتنقلة -->
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="kino logo.png" alt="غرف السينما الخاصة" style="width: 80%; max-width: 400px; margin-bottom: 30px;" />
+        </div>
+        <div class="mySlides fade">
+            <img src="kino poster.jpg" alt="غرف السينما الخاصة" style="width: 80%; max-width: 600px; margin-bottom: 30px;" />
+        </div>
+        <div class="mySlides fade">
+            <img src="kino cinema.jpg" alt="غرف السينما الخاصة" style="width: 80%; max-width: 600px; margin-bottom: 30px;" />
+        </div>
+        <div class="mySlides fade">
+            <img src="kino cinema2.jpg" alt="غرف السينما الخاصة" style="width: 80%; max-width: 600px; margin-bottom: 30px;" />
+        </div>
+
+        <!-- أزرار التنقل -->
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+    </div>
+</header>
+
+<script>
+    let slideIndex = 0;
+
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none"; // إخفاء جميع الصور
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1; }  // إذا تجاوزت آخر صورة، ابدأ من الأولى
+        slides[slideIndex - 1].style.display = "block"; // عرض الصورة الحالية
+        setTimeout(showSlides, 5000); // تغيير الصورة كل 5 ثواني
+    }
+
+    function plusSlides(n) {
+        let slides = document.getElementsByClassName("mySlides");
+        slideIndex += n;
+
+        if (slideIndex > slides.length) { slideIndex = 1; }  // إذا تجاوزت آخر صورة، ابدأ من الأولى
+        if (slideIndex < 1) { slideIndex = slides.length; } // إذا كان أقل من 0، ابدأ من آخر صورة
+
+        showSlides();
+    }
+
+    showSlides(); // عرض الصورة الأولى عند تحميل الصفحة
+</script>
+
+
+  <!-- قسم الميزات -->
+  <section id="kino">
+    <h2>لماذا KINO؟</h2>
+    <div class="features">
+      <div class="feature-box">تقنية 7D فائقة التطور</div>
+      <div class="feature-box">مؤثرات حركية وبيئية مذهلة</div>
+      <div class="feature-box">مقاعد ذكية تتفاعل مع الحدث</div>
+      <div class="feature-box">صوت محيطي ثلاثي الأبعاد</div>
+    </div>
+
+    <div class="cta">
+      <button>احجز تجربتك الآن</button>
+    </div>
+  </section>
+
+  <!-- صفحة السينما المتنقلة -->
+  <section id="mobile-cinema" class="mobile-cinema">
+    <h2>السينما المتنقلة</h2>
+    <img src="KINO .png" alt="السينما المتنقلة" style="width: 80%; max-width: 600px; margin-bottom: 30px;" />
+    
+    <ol style="font-size: 18px; color: #ddd; text-align: right; line-height: 1.8;">
+      <li>وحدة متنقلة (مثل فان مجهز) يمكن نقلها إلى أي مكان.</li>
+      <li>توفر نفس التجربة الغامرة من 7D و5D.</li>
+      <li>تُستخدم في المناسبات الخاصة مثل الحفلات، الأعياد، والفعاليات العامة.</li>
+    </ol>
+    
+    <div class="cta">
+      <button style="background-color: #f97316; color: white; border: none; padding: 15px 40px; font-size: 18px; border-radius: 8px; cursor: pointer; transition: background 0.3s ease;">احجز الآن</button>
+    </div>
+  </section>
+
+  <!-- صفحة غرف السينما الخاصة -->
+  <section id="private-rooms" class="private-rooms">
+    <h2>غرف السينما الخاصة</h2>
+
+    <!-- قسم الصور المتنقلة -->
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="privet room.png" alt="غرف السينما الخاصة" style="width: 60%; max-width: 400px; margin-bottom: 30px;" />
+        </div>
+        <div class="mySlides fade">
+            <img src="snacks.png" alt="غرف السينما الخاصة" style="width: 80%; max-width: 600px; margin-bottom: 30px;" />
+        </div>
+
+        <!-- أزرار التنقل -->
+        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
+        <button class="next" onclick="plusSlides(1)">&#10095;</button>
+    </div>
+
+    <ol style="font-size: 18px; color: #ddd; text-align: right; line-height: 1.8;">
+      <li>غرف صغيرة مخصصة، يتم حجزها بشكل فردي أو جماعي.</li>
+      <li>مجهزة بتقنيات سباعية الأبعاد (7D) وواقع خماسي الأبعاد (5D) لتقديم تجربة غامرة.</li>
+      <li>توفر خصوصية عالية ومحتوى مخصص حسب الطلب.</li>
+      <li> توفير خدمة أكل و شرب ذاتية</li>
+    </ol>
+
+    <div class="cta">
+      <button style="background-color: #f97316; color: white; border: none; padding: 15px 40px; font-size: 18px; border-radius: 8px; cursor: pointer; transition: background 0.3s ease;">احجز الآن</button>
+    </div>
+</section>
+
+<script>
+    let slideIndex = 0;
+
+    function showSlides() {
+        let slides = document.getElementsByClassName("mySlides");
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none"; // إخفاء جميع الصور
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1; }  // إذا تجاوزت آخر صورة، ابدأ من الأولى
+        slides[slideIndex - 1].style.display = "block"; // عرض الصورة الحالية
+        setTimeout(showSlides, 5000); // تغيير الصورة كل 5 ثواني
+    }
+
+    function plusSlides(n) {
+        let slides = document.getElementsByClassName("mySlides");
+        slideIndex += n;
+
+        if (slideIndex > slides.length) { slideIndex = 1; }  // إذا تجاوزت آخر صورة، ابدأ من الأولى
+        if (slideIndex < 1) { slideIndex = slides.length; } // إذا كان أقل من 0، ابدأ من آخر صورة
+
+        showSlides();
+    }
+
+    showSlides(); // عرض الصورة الأولى عند تحميل الصفحة
+</script>
+
+
+
+  <footer>
+    &copy; 2025 KINO - جميع الحقوق محفوظة
+  </footer>
+
+  <!-- إضافة سكربت لعرض الأقسام عند النقر -->
+  <script>
+    function showMobileCinema() {
+      var cinemaSection = document.querySelector('.mobile-cinema');
+      cinemaSection.style.display = 'block'; // يظهر قسم السينما المتنقلة
+      window.scrollTo({ top: cinemaSection.offsetTop, behavior: 'smooth' }); // التمرير إلى قسم السينما المتنقلة
+    }
+
+    function showPrivateRooms() {
+      var roomsSection = document.querySelector('.private-rooms');
+      roomsSection.style.display = 'block'; // يظهر قسم غرف السينما الخاصة
+      window.scrollTo({ top: roomsSection.offsetTop, behavior: 'smooth' }); // التمرير إلى قسم غرف السينما الخاصة
+    }
+
+    // إخفاء السينما المتنقلة عند النقر على "تعرف على KINO" أو "غرف السينما الخاصة"
+    function hideMobileCinema() {
+      var cinemaSection = document.querySelector('.mobile-cinema');
+      cinemaSection.style.display = 'none';
+    }
+
+    function hidePrivateRooms() {
+      var roomsSection = document.querySelector('.private-rooms');
+      roomsSection.style.display = 'none';
+    }
+
+    // إضافة الأحداث لكل رابط في القائمة
+    document.querySelector('a[href="#kino"]').addEventListener('click', hideMobileCinema);
+    document.querySelector('a[href="#kino"]').addEventListener('click', hidePrivateRooms);
+  </script>
+
+</body>
+</html>
